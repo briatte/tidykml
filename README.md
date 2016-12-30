@@ -2,8 +2,7 @@
 
 The `tidykml` package reads selected elements and values from [KML][kml]
 files, such as those produced by [Google My Maps][google-my-maps], and puts
-them into [tidy data frames][cran-tibble]. The resulting data frames are
-intended for use with packages like [`dplyr`][cran-dplyr] and
+them into [tidy data frames][cran-tibble], intended for use with packages like [`dplyr`][cran-dplyr] and
 [`ggplot2`][cran-ggplot2].
 
 ## Motivation
@@ -20,7 +19,7 @@ objects that can be passed to `ggplot2`.
 
 ## Limitations
 
-- The `tidykml` package was __tested with only a limited number of KML files__, all of which came from [Google My Maps][google-my-maps]. The fields that it extracts from the KML file might not fit other KML sources.
+- The `tidykml` package was __tested only against a limited number of KML files__, all of which came from [Google My Maps][google-my-maps]. The fields that it extracts from the KML file might not fit other KML sources.
 - The `tidykml` package __does not fully support [MultiGeometry][kml-multigeom] elements__, such as multi-polygons, and will only handle their _first_ element, in order of appearance in the KML source.
 
 Due to these limitations, `tidykml` lives on GitHub but will probably never show up on CRAN.
@@ -74,7 +73,7 @@ kml_polygons(f) %>%
 
 ![](http://i.imgur.com/d9lyU6r.png)
 
-These results are also easy to pass to [`ggmap`][ggmap]:
+These results are also easy to pass to [`ggmap`][cran-ggmap]:
 
 ```R
 library(ggmap)
