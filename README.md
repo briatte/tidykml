@@ -165,5 +165,5 @@ The `tidykml` package contains a few helper functions to handle KML files:
 [google-my-maps]: https://en.wikipedia.org/wiki/Google_My_Maps "Google My Maps (Wikipedia)"
 [map-gangs-source]: https://www.instagram.com/la_hood_maps/ "La Hood Maps (Instagram)"
 [map-gangs]: https://goo.gl/7Ar1Aa "Gangs of Los Angeles (2016) (Google My Maps)"
-[map-states]: https://goo.gl/rezvty "US Civil Wars (Google My Maps)"
+[map-states]: https://goo.gl/rezvty "US Civil War (Google My Maps)"
 [read_xml]: https://www.rdocumentation.org/packages/xml2/versions/1.0.0/topics/read_xml "xml2::read_xml (RDocumentation)"
