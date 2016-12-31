@@ -15,7 +15,7 @@
 #' f <- system.file("extdata", "states.kml.zip", package = "tidykml")
 #' kml_bounds(f)
 #' @seealso \link{kml_coords}
-#' @importFrom stringr %>% str_c str_split
+#' @importFrom stringr %>% str_c str_length str_split
 #' @importFrom xml2 xml_find_all xml_text
 #' @export
 kml_bounds <- function(x, ns = "d1", verbose = TRUE) {
@@ -34,6 +34,9 @@ kml_bounds <- function(x, ns = "d1", verbose = TRUE) {
       xml_text %>%
       str_split("\\s+") %>% # deal with Polygon coordinates
       unlist
+    
+    # drop empty <coordinates>
+    x <- x[ str_length(x) > 0 ]
     
     lon <- unique(kml_coords(x, 1, verbose))
     lat <- unique(kml_coords(x, 2, verbose))
