@@ -11,7 +11,10 @@
 #' (\code{longitude}, \code{latitude} and \code{altitude}) of the \emph{first} 
 #' Point contained within each Placemark element of the KML source. 
 #' Other Placemark elements will be ignored.
-#' If there are no Points in the KML file, the function returns \code{NULL}.
+#' 
+#' If there are no Points in the KML source, the function returns \code{NULL}.
+#' If there are no Folders in the KML source, the \code{folder} variable will be
+#' filled with \code{NA}.
 #' @note The function only extracts the \strong{first} Point out of each 
 #' Placemark element. As a result, multi-points built into <MultiGeometry> 
 #' elements are \emph{not} fully supported: only the first Point will be present
@@ -30,11 +33,18 @@
 kml_points <- function(x, ns = "d1", verbose = TRUE, ...) {
   
   x <- kml_read(x, ...)
-  x <- kml_folders(x, ns)
+  y <- kml_folders(x, ns)
   
-  # case: no layers
-  if (!length(x)) {
-    return(NULL)
+  if (!length(y)) {
+    
+    # case: no folders
+    x <- xml_find_all(x, str_c("//", ns, ":Document"))
+    
+  } else {
+    
+    x <- y
+    y <- length(y)
+    
   }
   
   x <- lapply(x, function(x) {
@@ -62,19 +72,6 @@ kml_points <- function(x, ns = "d1", verbose = TRUE, ...) {
   }) %>%
     bind_rows
   
-  if (!nrow(x)) {
-    
-    return(NULL)
-    
-  } else {
-    
-    x$longitude <- kml_coords(x$coordinates, 1, verbose)
-    x$latitude  <- kml_coords(x$coordinates, 2, verbose)
-    x$altitude  <- kml_coords(x$coordinates, 3, verbose)
-    x$coordinates <- NULL
-    
-    return(x)
-    
-  }
+  return(kml_finalize(x, folders = length(y) > 0, verbose))
   
 }
