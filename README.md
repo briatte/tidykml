@@ -19,7 +19,7 @@ objects that can be passed to `ggplot2`.
 
 ## Limitations
 
-- The `tidykml` package was __tested only against a limited number of KML files__, all of which came from [Google My Maps][google-my-maps]. The fields that it extracts from the KML file might not fit other KML sources.
+- The `tidykml` package was __tested only against a limited number of KML files__, all of which came either from [GADM][gadm] or from [Google My Maps][google-my-maps]. The fields that it extracts from the KML file might not fit other KML sources.
 - The `tidykml` package __does not fully support [MultiGeometry][kml-multigeom] elements__, such as multi-polygons, and will only handle their _first_ element, in order of appearance in the KML source.
 
 Due to these limitations, `tidykml` lives on GitHub but will probably never show up on CRAN.
@@ -155,6 +155,7 @@ The `tidykml` package contains a few helper functions to handle KML files:
 [cran-rgdal]: https://cran.r-project.org/package=rgdal "Package 'rgdal' (CRAN)"
 [cran-sf]: https://cran.r-project.org/package=sf "Package 'sf' (CRAN)"
 [cran-tibble]: https://cran.r-project.org/package=tibble "Package 'tibble' (CRAN)"
+[gadm]: http://www.gadm.org/ "GADM database of Global Administrative Areas"
 [kml]: https://developers.google.com/kml/documentation/kmlreference "KML Reference (Google Developers)"
 [kml-folders]: https://developers.google.com/kml/documentation/kmlreference#folder "KML Reference: <Folder> (Google Developers)"
 [kml-lines]: https://developers.google.com/kml/documentation/kmlreference#linestring "KML Reference: <LineString> (Google Developers)"
