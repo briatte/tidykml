@@ -12,9 +12,9 @@ All inputs accepted by \link[xml2:read_xml]{read_xml} are also accepted, as
 long as they are valid KML. This means that URLs and local compressed files,
 such as \code{.zip} files, are also supported. 
 
-If the source ends in \code{.kmz}, \code{kml_read} will treat it as a 
-\code{.zip} file and will try to read its first file using 
-\link[base:unz]{unz}.}
+If the source is a local file with a name ending in \code{.kmz}, 
+\code{kml_read} will treat it as a zipped KML file and will try to read its
+first file, as listed by \link[utils:unzip]{unzip}.}
 
 \item{...}{Arguments passed to \link[xml2:read_xml]{read_xml}, such as 
 \code{encoding} or \code{base_url}.

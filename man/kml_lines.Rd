@@ -23,8 +23,11 @@ A \link[tibble:tibble]{tibble} containing the \code{folder} (layer),
 (\code{longitude}, \code{latitude} and \code{altitude}) of the \emph{first}
 LineString contained within each Placemark element of the KML source. 
 Other Placemark elements will be ignored.
-If there are no LineStrings in the KML file, the function returns 
+
+If there are no LineStrings in the KML source, the function returns 
 \code{NULL}.
+If there are no Folders in the KML source, the \code{folder} variable will be
+filled with \code{NA}.
 }
 \description{
 Read Lines out of a KML file.
