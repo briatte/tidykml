@@ -34,6 +34,56 @@ kml_element <- function(x, element, ns = "d1") {
 #   
 # }
 
+#' Finalize a KML tidy data frame
+#' 
+#' Reads the coordinates out of the \code{coordinates} variable, checks them,
+#' and returns the data.
+#' @param x The KML data frame to tidy.
+#' @param folders The number of folders in the data frame.
+#' @param verbose Whether to report invalid coordinates and/or negative
+#' altitudes (below sea level); defaults to \code{TRUE}.
+#' @importFrom stringr str_length
+#' @keywords internal
+kml_finalize <- function(x, folders, verbose = TRUE) {
+  
+  stopifnot(is.data.frame(x))
+  
+  if (!nrow(x)) {
+    
+    return(NULL)
+    
+  } else {
+    
+    # case: no folders
+    if (!folders) {
+      x$folder <- NA
+    }
+
+    # remove elements with no <coordinates>
+    x <- x[ !is.na(x$coordinates), ]
+
+    # drop blank lines around <coordinates>
+    x <- x[ which(str_length(x$coordinates) > 0), ]
+    
+    if (!nrow(x)) {
+      
+      return(NULL)
+      
+    } else {
+      
+      x$longitude <- kml_coords(x$coordinates, 1, verbose)
+      x$latitude  <- kml_coords(x$coordinates, 2, verbose)
+      x$altitude  <- kml_coords(x$coordinates, 3, verbose)
+      x$coordinates <- NULL
+    
+      return(x)
+      
+    }
+    
+  }
+  
+}
+
 #' Extract KML Folders.
 #' 
 #' @param x An XML document.
