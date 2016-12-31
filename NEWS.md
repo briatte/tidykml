@@ -1,7 +1,9 @@
 tidykml 0.1.1 (2016-12-31)
 --------------------------
 
-This version has been tested against GADM (gadm.org) files.
+This version has been tested against GADM (gadm.org) files -- with very mixed 
+success: maps with inner boundaries will not render appropriately, and detailed
+maps will take a long time to process.
 
 FIXES
 
@@ -17,3 +19,5 @@ tidykml 0.1.0 (2016-12-30)
 --------------------------
 
 First release.
+
+This version has been tested against KML files from Google My Maps.
