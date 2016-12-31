@@ -40,28 +40,28 @@ test_that("lines, points, polygons return NULLs when required", {
   
   expect_null( kml_polygons(f) )
   
-  # # EMPTY POLYGON
-  # 
-  # f <- '<?xml version="1.0" encoding="UTF-8"?>
-  #   <kml xmlns="http://www.opengis.net/kml/2.2">
-  #     <Document>
-  #       <name>foo</name>
-  #       <description>bar</description>
-  #       <Folder>
-  #         <name>empty</name>
-  #         <Placemark>
-  #           <name>empty polygon placemark</name>
-  #           <Polygon>
-  #             <name>empty polygon</name>
-  #           </Polygon>
-  #         </Placemark>
-  #       </Folder>
-  #     </Document>
-  #   </kml>'
+  # EMPTY POLYGON
+
+  f <- '<?xml version="1.0" encoding="UTF-8"?>
+    <kml xmlns="http://www.opengis.net/kml/2.2">
+      <Document>
+        <name>foo</name>
+        <description>bar</description>
+        <Folder>
+          <name>empty</name>
+          <Placemark>
+            <name>empty polygon placemark</name>
+            <Polygon>
+              <name>empty polygon</name>
+            </Polygon>
+          </Placemark>
+        </Folder>
+      </Document>
+    </kml>'
   
   expect_null( kml_polygons(f) )
   
-  # NULL RETURNS WHEN THERE IS NO FOLDER IN THE FILE
+  # NULL RETURNS WHEN THERE IS NOTHING IN THE FILE
   
   f <- '<?xml version="1.0" encoding="UTF-8"?>
     <kml xmlns="http://www.opengis.net/kml/2.2">
@@ -73,6 +73,24 @@ test_that("lines, points, polygons return NULLs when required", {
   
   expect_null( kml_lines(f)    )
   expect_null( kml_points(f)   )
+  expect_null( kml_polygons(f) )
+  
+  # EMPTY POLYGON INSIDE A DOCUMENT WITH NO FOLDER
+  
+  f <- '<?xml version="1.0" encoding="UTF-8"?>
+    <kml xmlns="http://www.opengis.net/kml/2.2">
+      <Document>
+        <name>foo</name>
+        <description>bar</description>
+        <Placemark>
+          <name>empty polygon placemark</name>
+          <Polygon>
+            <name>empty polygon</name>
+          </Polygon>
+        </Placemark>
+      </Document>
+    </kml>'
+  
   expect_null( kml_polygons(f) )
   
 })
