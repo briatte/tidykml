@@ -17,22 +17,22 @@ kml_element <- function(x, element, ns = "d1") {
   
 }
 
-# #' Extract multiple KML elements from a Placemark.
-# #' 
-# #' @inheritParams kml_element
-# #' @return A character vector holding the text of the element.
-# #' Missing values, i.e. empty elements, will be returned as \code{NA} values.
-# #' @seealso Google Developers. KML Reference: <Placemark> Element.
-# #' \url{https://developers.google.com/kml/documentation/kmlreference#placemark}
-# #' @importFrom xml2 xml_find_first xml_text
-# #' @importFrom stringr %>% str_c
-# #' @keywords internal
-# kml_elements <- function(x, element, ns = "d1") {
-#   
-#   xml_find_first(x, str_c(ns, ":", element)) %>%
-#     xml_text
-#   
-# }
+#' Extract multiple KML elements from a Placemark.
+#'
+#' @inheritParams kml_element
+#' @return A character vector holding the text of the element.
+#' Missing values, i.e. empty elements, will be returned as \code{NA} values.
+#' @seealso Google Developers. KML Reference: <Placemark> Element.
+#' \url{https://developers.google.com/kml/documentation/kmlreference#placemark}
+#' @importFrom xml2 xml_find_first xml_text
+#' @importFrom stringr %>% str_c
+#' @keywords internal
+kml_elements <- function(x, element, ns = "d1") {
+
+  xml_find_all(x, str_c(ns, ":", element)) %>%
+    xml_text
+
+}
 
 #' Finalize a KML tidy data frame
 #' 
@@ -56,7 +56,7 @@ kml_finalize <- function(x, folders, verbose = TRUE) {
     
     # case: no folders
     if (!folders) {
-      x$folder <- NA
+      x$folder <- NA_character_
     }
 
     # remove elements with no <coordinates>
@@ -86,8 +86,8 @@ kml_finalize <- function(x, folders, verbose = TRUE) {
 
 #' Extract KML Folders.
 #' 
+#' @inheritParams kml_element
 #' @param x An XML document.
-#' @param ns The name of the namespace to extract from; defaults to \code{"d1"}.
 #' @return A nodeset of Folders.
 #' @seealso Google Developers. KML Reference: <Folder> Element.
 #' \url{https://developers.google.com/kml/documentation/kmlreference#folder}
@@ -102,9 +102,9 @@ kml_folders <- function(x, ns = "d1") {
 
 #' Extract KML Placemarks containing a specific Geometry.
 #' 
+#' @inheritParams kml_element
 #' @param x A nodeset of Folders.
 #' @param geometry The name of the Geometry to subset on, e.g. \code{"Point"}.
-#' @param ns The name of the namespace to extract from; defaults to \code{"d1"}.
 #' @return A nodeset of Placemarks.
 #' @seealso Google Developers. KML Reference: <Placemark> Element.
 #' \url{https://developers.google.com/kml/documentation/kmlreference#placemark}
@@ -124,5 +124,39 @@ kml_placemarks <- function(x, geometry, ns = "d1") {
   }
   
   return(x)
+  
+}
+
+#' Find the number of coordinates in a KML file.
+#' 
+#' @inheritParams kml_element
+#' @param x A KML source. See \link{kml_read}.
+#' @return A named numeric vector of three elements containing the total number 
+#' of coordinates, the total number of coordinates found in <outerBoundaryIs> 
+#' elements (outer polygon boundaries), and the total number of coordinates 
+#' found in <innerBoundaryIs> elements (inner polygon boundaries).
+#' @importFrom xml2 xml_find_all xml_text
+#' @importFrom stringr %>% str_c str_split str_trim
+#' @keywords internal
+kml_size <- function(x, ns = "d1") {
+  
+  x <- kml_read(x)
+  
+  c(
+    "coordinates" = xml_find_all(x, str_c("//", ns, ":coordinates")) %>%
+      xml_text %>%
+      str_trim %>%
+      str_split("\\s+") %>%
+      unlist %>%
+      length,
+    sapply(c("outerBoundaryIs", "innerBoundaryIs"), function(y) {
+      xml_find_all(x, str_c("//", ns, ":", y, "//", ns, ":coordinates")) %>%
+        xml_text %>%
+        str_trim %>%
+        str_split("\\s+") %>%
+        unlist %>%
+        length
+    })
+  )
   
 }

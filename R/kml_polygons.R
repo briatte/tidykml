@@ -1,11 +1,8 @@
 #' Read Polygons out of a KML file.
 #' 
-#' @param x A KML source. See \link{kml_read}.
-#' @param ns The name of the namespace to extract from: defaults to \code{"d1"}.
-#' @param verbose Whether to report invalid coordinates and/or altitudes below
-#' sea level; defaults to \code{TRUE}. See \link{kml_coords}.
-#' @param ... Arguments passed to \link[xml2:read_xml]{read_xml}. 
-#' See \link{kml_read}.
+#' @inheritParams kml_points
+#' @param fuse Whether to fuse multi-polygons into a single element; defaults
+#' to \code{FALSE}. Experimental. Might not return nice things.
 #' @return A \link[tibble:tibble]{tibble} containing the \code{folder} (layer), 
 #' \code{name}, \code{description}, \code{styleUrl} and geographic coordinates 
 #' (\code{longitude}, \code{latitude} and \code{altitude}) of the \emph{first}
@@ -19,7 +16,7 @@
 #' only extracts the \strong{first} Polygon out of each Placemark element. As a
 #' result, multi-polygons built into <MultiGeometry> elements are \emph{not} 
 #' fully supported: only the first Polygon will be present in the results.
-#' @seealso Google Developers. KML Reference: <Polygon> Element.
+#' @references Google Developers. KML Reference: <Polygon> Element.
 #' \url{https://developers.google.com/kml/documentation/kmlreference#polygon}
 #' @examples
 #' # demo data: U.S. Civil War map
@@ -30,7 +27,7 @@
 #' @importFrom stringr %>% str_c str_split
 #' @importFrom xml2 xml_find_all xml_find_first xml_text
 #' @export
-kml_polygons <- function(x, ns = "d1", verbose = TRUE, ...) {
+kml_polygons <- function(x, ns = "d1", verbose = TRUE, fuse = FALSE, ...) {
   
   x <- kml_read(x, ...)
   y <- kml_folders(x, ns)
@@ -64,26 +61,6 @@ kml_polygons <- function(x, ns = "d1", verbose = TRUE, ...) {
       # way out: just take the first one into account, and assume that the rest
       # of the polygons are insignificant islands. Not optimal, I know.
       #
-      # One way to get all Polygons is to use the commented-out function
-      # `kml_elements`` in internals.R and replace the definition of the
-      # coordinates variable at line 92 by this:
-      
-        # coordinates = do.call(
-        #   ifelse(geometry == "Polygon/", "kml_element", "kml_elements"),
-        #   args = list(x = x, element = str_c(
-        #     geometry,
-        #     ns,
-        #     ":outerBoundaryIs/",
-        #     ns,
-        #     ":LinearRing/",
-        #     ns,
-        #     ":coordinates"),
-        #     ns)
-        # )
-      
-      # This approach fuses all Polygons together, so it's also ineffective.
-      # I don't have a nice solution, so am leaving this here.
-      
       geometry <- ifelse(
         xml_find_all(x, str_c(ns, ":MultiGeometry")) %>%
           length, # detect multi-polygons
@@ -99,7 +76,9 @@ kml_polygons <- function(x, ns = "d1", verbose = TRUE, ...) {
         # if the Placemark contains several Polygons in a MultiGeometry, the 
         # next lines will only find the coordinates of the first Polygon (see
         # longer note above)
-        coordinates = kml_element(x, str_c(
+        coordinates = do.call(
+          ifelse(fuse, "kml_elements", "kml_element"),
+          args = list(x = x, element = str_c(
             geometry,
             ns,
             ":outerBoundaryIs/",
@@ -107,7 +86,8 @@ kml_polygons <- function(x, ns = "d1", verbose = TRUE, ...) {
             ":LinearRing/",
             ns,
             ":coordinates"),
-            ns) %>%
+            ns)
+        ) %>%
           str_split("\\s+") %>%
           unlist
       )

@@ -15,7 +15,7 @@ kml_coords(x, coord, verbose = TRUE)
  \code{"lon"}, \code{"lat"} and \code{"alt"}.}
 
 \item{verbose}{Whether to report invalid coordinates and/or negative
-altitudes (below sea level); defaults to \code{TRUE}.}
+altitudes (below sea level); defaults to \code{TRUE}. See 'Note'.}
 }
 \value{
 A numeric vector.

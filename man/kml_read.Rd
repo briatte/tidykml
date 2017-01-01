@@ -14,7 +14,11 @@ such as \code{.zip} files, are also supported.
 
 If the source is a local file with a name ending in \code{.kmz}, 
 \code{kml_read} will treat it as a zipped KML file and will try to read its
-first file, as listed by \link[utils:unzip]{unzip}.}
+first file, as listed by \link[utils:unzip]{unzip}.
+
+If the source is a link to Google My Maps, \code{kml_read} will try to 
+download the most recent version of the map and will then treat it as a 
+\code{.kmz} file.}
 
 \item{...}{Arguments passed to \link[xml2:read_xml]{read_xml}, such as 
 \code{encoding} or \code{base_url}.

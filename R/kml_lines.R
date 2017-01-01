@@ -1,11 +1,6 @@
 #' Read Lines out of a KML file.
 #' 
-#' @param x A KML source. See \link{kml_read}.
-#' @param ns The name of the namespace to extract from: defaults to \code{"d1"}.
-#' @param verbose Whether to report invalid coordinates and/or altitudes below
-#' sea level; defaults to \code{TRUE}. See \link{kml_coords}.
-#' @param ... Arguments passed to \link[xml2:read_xml]{read_xml}. 
-#' See \link{kml_read}.
+#' @inheritParams kml_points
 #' @return A \link[tibble:tibble]{tibble} containing the \code{folder} (layer), 
 #' \code{name}, \code{description}, \code{styleUrl} and geographic coordinates 
 #' (\code{longitude}, \code{latitude} and \code{altitude}) of the \emph{first}
@@ -25,7 +20,7 @@
 #' # see ?states for details
 #' f <- system.file("extdata", "states.kml.zip", package = "tidykml")
 #' kml_lines(f)
-#' @seealso Google Developers. KML Reference: <Point> Element.
+#' @references Google Developers. KML Reference: <Point> Element.
 #' \url{https://developers.google.com/kml/documentation/kmlreference#linestring}
 #' @importFrom dplyr bind_rows data_frame
 #' @importFrom stringr %>% str_c str_split

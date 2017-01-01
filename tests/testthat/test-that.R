@@ -1,18 +1,20 @@
 context("Test tidykml")
 
-test_that("bounds, info, lines, points, polygons work", {
+test_that("bounds, info, lines, points, polygons, size work", {
   
   # demo data: U.S. Civil War map
   # see ?states for details
   f <- system.file("extdata", "states.kml.zip", package = "tidykml")
   
+  expect_is( kml_size(f)     , class = "integer")
   expect_is( kml_info(f)     , class = "integer")
   expect_is( kml_bounds(f)   , class = "numeric")
-  expect_is( kml_bounds(kml_lines(f))   , class = "numeric")
+  expect_is( kml_bounds(kml_lines(f)), class = "numeric")
   
   expect_is( kml_lines(f)    , class = "data.frame")
   expect_is( kml_points(f)   , class = "data.frame")
   expect_is( kml_polygons(f) , class = "data.frame")
+  expect_is( kml_polygons(f, fuse = TRUE) , class = "data.frame")
   
 })
 
@@ -96,6 +98,13 @@ test_that("lines, points, polygons return NULLs when required", {
 })
 
 test_that("kml_read throws an error when the source is not KML", {
+  
+  expect_is(kml_read("https://www.google.com/maps/d/embed?mid=1ul5yqMj7_JgM5xpfOn5gtlO-bTk&hl=en"),
+            "xml_document")
+  
+})
+
+test_that("kml_read can read Google My Maps URLs", {
   
   expect_error(kml_read("<foo></foo>"))
   

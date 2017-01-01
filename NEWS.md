@@ -1,3 +1,16 @@
+tidykml 0.1.2 (2017-01-01)
+--------------------------
+
+CHANGES
+
+* Option to read data directly from Google My Maps.
+
+* Option to force kml_polygons to fuse multiple-geometry polygons together. This
+option is experimental, and is highly likely to return erroneous geometries.
+
+* More detailed internal functions.
+
+
 tidykml 0.1.1 (2016-12-31)
 --------------------------
 
@@ -14,6 +27,7 @@ CHANGES
 * Support for files with no <Folder> element(s).
 
 * Support for KMZ sources.
+
 
 tidykml 0.1.0 (2016-12-30)
 --------------------------

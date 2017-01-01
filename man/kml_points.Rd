@@ -43,7 +43,7 @@ in the results.
 f <- system.file("extdata", "states.kml.zip", package = "tidykml")
 kml_points(f)
 }
-\seealso{
+\references{
 Google Developers. KML Reference: <Point> Element.
 \url{https://developers.google.com/kml/documentation/kmlreference#point}
 }

@@ -19,7 +19,7 @@
 #' Placemark element. As a result, multi-points built into <MultiGeometry> 
 #' elements are \emph{not} fully supported: only the first Point will be present
 #' in the results.
-#' @seealso Google Developers. KML Reference: <Point> Element.
+#' @references Google Developers. KML Reference: <Point> Element.
 #' \url{https://developers.google.com/kml/documentation/kmlreference#point}
 #' @examples 
 #' # demo data: U.S. Civil War map

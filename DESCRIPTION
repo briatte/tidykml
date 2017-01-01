@@ -1,6 +1,6 @@
 Package: tidykml
 Title: Turn KML Files Into Tidy Data Frames
-Version: 0.1.1
+Version: 0.1.2
 Authors@R: person("Francois", "Briatte", email = "f.briatte@gmail.com", role = c("aut", "cre"))
 Description: This package reads selected elements and values from KML files, 
     such as those produced by Google My Maps, and turns them into tidy data 
@@ -16,6 +16,7 @@ Imports:
 Suggests:
     ggmap,
     ggplot2,
+    httr,
     testthat
 License: GPL-3
 Encoding: UTF-8

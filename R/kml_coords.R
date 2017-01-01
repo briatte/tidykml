@@ -6,7 +6,7 @@
 #' \code{2} (latitude) or \code{3} (altitude). The function also accepts
 #'  \code{"lon"}, \code{"lat"} and \code{"alt"}.
 #' @param verbose Whether to report invalid coordinates and/or negative
-#' altitudes (below sea level); defaults to \code{TRUE}.
+#' altitudes (below sea level); defaults to \code{TRUE}. See 'Note'.
 #' @return A numeric vector.
 #' 
 #' If \code{coord} has been set to return altitude and there are no altitude 

@@ -4,7 +4,7 @@
 \alias{kml_polygons}
 \title{Read Polygons out of a KML file.}
 \usage{
-kml_polygons(x, ns = "d1", verbose = TRUE, ...)
+kml_polygons(x, ns = "d1", verbose = TRUE, fuse = FALSE, ...)
 }
 \arguments{
 \item{x}{A KML source. See \link{kml_read}.}
@@ -13,6 +13,9 @@ kml_polygons(x, ns = "d1", verbose = TRUE, ...)
 
 \item{verbose}{Whether to report invalid coordinates and/or altitudes below
 sea level; defaults to \code{TRUE}. See \link{kml_coords}.}
+
+\item{fuse}{Whether to fuse multi-polygons into a single element; defaults
+to \code{FALSE}. Experimental. Might not return nice things.}
 
 \item{...}{Arguments passed to \link[xml2:read_xml]{read_xml}. 
 See \link{kml_read}.}
@@ -43,7 +46,7 @@ fully supported: only the first Polygon will be present in the results.
 f <- system.file("extdata", "states.kml.zip", package = "tidykml")
 kml_polygons(f)
 }
-\seealso{
+\references{
 Google Developers. KML Reference: <Polygon> Element.
 \url{https://developers.google.com/kml/documentation/kmlreference#polygon}
 }
